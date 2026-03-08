@@ -1,36 +1,88 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Northwind Trading Dashboard
 
-## Getting Started
+A full-stack, production-ready web application providing an analytical dashboard and full CRUD management for the classic Northwind Trading database. Built with modern web technologies, this dashboard offers a seamless, highly responsive, and beautiful user interface.
 
-First, run the development server:
+## 🚀 Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+-   **Business Analytics Dashboard:** Visualize Key Performance Indicators (KPIs) such as Total Revenue, Orders, and Active Customers. Includes monthly charts and recent transactions.
+-   **Full CRUD Management:**
+    -   **Products:** View, search, filter by category, create, edit, and delete products. Includes low-stock alerts.
+    -   **Customers:** Manage customer profiles and view their complete order history.
+    -   **Orders:** Track order statuses, shipping details, and attached line items (Order Details).
+    -   **Employees:** Employee directory with performance statistics.
+-   **Advanced Reporting:** Visualize Sales by Category, Customer Geographic Segmentation, and Top Performing Employees.
+-   **Modern UI/UX:** Dark mode support, instantaneous search, server-side pagination, interactive charts, and toast notifications.
+
+## 🛠️ Tech Stack
+
+-   **Frontend:** Next.js 16 (App Router), React 19, TypeScript
+-   **Styling:** Tailwind CSS, shadcn/ui
+-   **Icons:** Lucide React
+-   **Data Visualization:** Recharts
+-   **Forms & Validation:** React Hook Form, Zod
+-   **Backend:** Next.js API Routes (REST)
+-   **Database:** PostgreSQL (Northwind Database)
+-   **ORM:** Prisma
+
+## 📂 Project Structure
+
+```text
+northwind-dashboard/
+├── prisma/             # Prisma ORM schema and database connection
+├── public/             # Static assets (images, fonts, etc.)
+├── src/
+│   ├── app/            # Next.js App Router pages and API routes
+│   │   ├── (dashboard)/# Protected dashboard UI layout & pages
+│   │   └── api/        # REST API endpoints (backend)
+│   ├── components/     # Reusable React components (UI, forms, charts)
+│   ├── hooks/          # Custom React hooks for data fetching & state management
+│   ├── lib/            # Utility functions and Prisma client instance
+│   └── types/          # TypeScript interfaces and type definitions
+├── tailwind.config.ts  # Tailwind CSS configuration
+└── next.config.ts      # Next.js configuration
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## ⚙️ Getting Started
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Prerequisites
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+-   Node.js 18+
+-   PostgreSQL database containing the Northwind schema (tables in PascalCase: `Categories`, `Customers`, `Employees`, `OrderDetails`, `Orders`, `Products`, `Shippers`, `Suppliers`).
 
-## Learn More
+### Installation
 
-To learn more about Next.js, take a look at the following resources:
+1.  **Clone the repository and jump into the project directory:**
+    ```bash
+    git clone https://github.com/yourusername/northwind-dashboard.git
+    cd northwind-dashboard
+    ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+2.  **Install dependencies:**
+    ```bash
+    npm install
+    # or
+    yarn install
+    ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+3.  **Configure Environment Variables:**
+    Create a `.env` file in the root directory and set your PostgreSQL connection URL:
+    ```env
+    DATABASE_URL="postgresql://username:password@localhost:5432/movedb?schema=public"
+    ```
 
-## Deploy on Vercel
+4.  **Sync Prisma Client:**
+    ```bash
+    npx prisma generate
+    ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+5.  **Run the Development Server:**
+    ```bash
+    npm run dev
+    ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+6.  **Open the Application:**
+    Navigate to [http://localhost:3000](http://localhost:3000) in your browser.
+
+## 📝 License
+
+This project is licensed under the MIT License.

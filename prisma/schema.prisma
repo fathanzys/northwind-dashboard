@@ -1,0 +1,136 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model categories {
+  CategoryID   Int        @id @default(autoincrement())
+  CategoryName String     @db.VarChar(15)
+  Description  String?    @db.Text
+  products     products[]
+
+  @@map("Categories")
+}
+
+model customers {
+  CustomerID   String   @id @db.VarChar(5)
+  CompanyName  String   @db.VarChar(40)
+  ContactName  String?  @db.VarChar(30)
+  ContactTitle String?  @db.VarChar(30)
+  Address      String?  @db.VarChar(60)
+  City         String?  @db.VarChar(15)
+  Region       String?  @db.VarChar(15)
+  PostalCode   String?  @db.VarChar(10)
+  Country      String?  @db.VarChar(15)
+  Phone        String?  @db.VarChar(24)
+  Fax          String?  @db.VarChar(24)
+  orders       orders[]
+
+  @@map("Customers")
+}
+
+model employees {
+  EmployeeID      Int        @id @default(autoincrement())
+  LastName        String     @db.VarChar(20)
+  FirstName       String     @db.VarChar(10)
+  Title           String?    @db.VarChar(30)
+  TitleOfCourtesy String?    @db.VarChar(25)
+  BirthDate       DateTime?  @db.Timestamp(6)
+  HireDate        DateTime?  @db.Timestamp(6)
+  Address         String?    @db.VarChar(60)
+  City            String?    @db.VarChar(15)
+  Region          String?    @db.VarChar(15)
+  PostalCode      String?    @db.VarChar(10)
+  Country         String?    @db.VarChar(15)
+  HomePhone       String?    @db.VarChar(24)
+  Extension       String?    @db.VarChar(4)
+  Notes           String?    @db.Text
+  ReportsTo       Int?
+  orders          orders[]
+
+  @@map("Employees")
+}
+
+model suppliers {
+  SupplierID   Int        @id @default(autoincrement())
+  CompanyName  String     @db.VarChar(40)
+  ContactName  String?    @db.VarChar(30)
+  ContactTitle String?    @db.VarChar(30)
+  Address      String?    @db.VarChar(60)
+  City         String?    @db.VarChar(15)
+  Region       String?    @db.VarChar(15)
+  PostalCode   String?    @db.VarChar(10)
+  Country      String?    @db.VarChar(15)
+  Phone        String?    @db.VarChar(24)
+  Fax          String?    @db.VarChar(24)
+  products     products[]
+
+  @@map("Suppliers")
+}
+
+model shippers {
+  ShipperID   Int      @id @default(autoincrement())
+  CompanyName String   @db.VarChar(40)
+  Phone       String?  @db.VarChar(24)
+  orders      orders[]
+
+  @@map("Shippers")
+}
+
+model products {
+  ProductID       Int            @id @default(autoincrement())
+  ProductName     String         @db.VarChar(40)
+  SupplierID      Int?
+  CategoryID      Int?
+  QuantityPerUnit String?        @db.VarChar(20)
+  UnitPrice       Decimal?       @default(0) @db.Decimal(19, 4)
+  UnitsInStock    Int?           @default(0)
+  UnitsOnOrder    Int?           @default(0)
+  ReorderLevel    Int?           @default(0)
+  Discontinued    Int            @default(0) @db.SmallInt
+  supplier        suppliers?     @relation(fields: [SupplierID], references: [SupplierID])
+  category        categories?    @relation(fields: [CategoryID], references: [CategoryID])
+  order_details   order_details[]
+
+  @@map("Products")
+}
+
+model orders {
+  OrderID        Int            @id @default(autoincrement())
+  CustomerID     String?        @db.VarChar(5)
+  EmployeeID     Int?
+  OrderDate      DateTime?      @db.Timestamp(6)
+  RequiredDate   DateTime?      @db.Timestamp(6)
+  ShippedDate    DateTime?      @db.Timestamp(6)
+  ShipVia        Int?
+  Freight        Decimal?       @default(0) @db.Decimal(19, 4)
+  ShipName       String?        @db.VarChar(40)
+  ShipAddress    String?        @db.VarChar(60)
+  ShipCity       String?        @db.VarChar(15)
+  ShipRegion     String?        @db.VarChar(15)
+  ShipPostalCode String?        @db.VarChar(10)
+  ShipCountry    String?        @db.VarChar(15)
+  customer       customers?     @relation(fields: [CustomerID], references: [CustomerID])
+  employee       employees?     @relation(fields: [EmployeeID], references: [EmployeeID])
+  shipper        shippers?      @relation(fields: [ShipVia], references: [ShipperID])
+  order_details  order_details[]
+
+  @@map("Orders")
+}
+
+model order_details {
+  OrderID   Int
+  ProductID Int
+  UnitPrice Decimal @default(0) @db.Decimal(19, 4)
+  Quantity  Int     @default(1)
+  Discount  Float   @default(0) @db.Real
+  order     orders  @relation(fields: [OrderID], references: [OrderID])
+  product   products @relation(fields: [ProductID], references: [ProductID])
+
+  @@id([OrderID, ProductID])
+  @@map("OrderDetails")
+}
