@@ -10,6 +10,7 @@ import {
     ShoppingCart,
     UserCog,
     BarChart3,
+    TrendingUp,
     ChevronLeft,
     ChevronRight,
     Menu,
@@ -27,6 +28,7 @@ const navItems = [
     { href: "/orders", label: "Orders", icon: ShoppingCart },
     { href: "/employees", label: "Employees", icon: UserCog },
     { href: "/reports", label: "Reports", icon: BarChart3 },
+    { href: "/predictions", label: "Predictions", icon: TrendingUp },
 ];
 
 function NavContent({ collapsed, pathname }: { collapsed: boolean; pathname: string }) {
