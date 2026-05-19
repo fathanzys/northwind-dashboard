@@ -50,6 +50,9 @@ model employees {
   Extension       String?    @db.VarChar(4)
   Notes           String?    @db.Text
   ReportsTo       Int?
+  Email           String?    @unique @db.VarChar(100)
+  PasswordHash    String?    @db.VarChar(255)
+  Role            String     @default("user") @db.VarChar(20)
   orders          orders[]
 
   @@map("Employees")
